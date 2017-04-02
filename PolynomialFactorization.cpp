@@ -1,4 +1,5 @@
 // Shalin
+
 #include <bits/stdc++.h>
 using namespace std;
 #define lli long long int
@@ -9,6 +10,9 @@ using namespace std;
 
 typedef vector<lli> polynomial;
 
+// TODO: Pass references to vectors instead of entire vectors to speed up the code
+
+// Modpow in O(logn)
 lli fp(lli a,lli n,lli mod)
 {
     if(n==0) return 1;
@@ -20,6 +24,7 @@ lli fp(lli a,lli n,lli mod)
     else return (a*((half*half)%mod))%mod;
 }
 
+// Modular inverse of x when p is a prime is x^(p-2) mod p
 lli modInverse(lli x,lli p)
 {
 	return fp(x,p-2,p);
@@ -41,6 +46,7 @@ polynomial trimZeros(polynomial fx)
 }
 
 // Divides fx by gx
+// TODO: Insert assert statements to check if leading coefficient of divisor is 1
 pair<polynomial,polynomial> dividePolynomials(polynomial fx,polynomial gx,lli p)
 {
 	polynomial quot,rem;
@@ -71,6 +77,7 @@ polynomial gcdPolynomials(polynomial fx,polynomial gx,lli p)
 	}
 
 	// This loop stops when the divisor becomes 0
+	// FIXME: Here if size becomes 0, then gx[0] gives a segfault. 
 	while(gx.size()>1 or gx[0]>0)
 	{
 		if(gx[0]!=1)
@@ -96,6 +103,7 @@ polynomial gcdPolynomials(polynomial fx,polynomial gx,lli p)
 	return fx;
 }
 
+// Calculates f(x+a) from f(x)
 polynomial shiftPolynomial(polynomial fx,lli a,lli p)
 {
 	lli i,j,k,len=fx.size();
@@ -193,6 +201,7 @@ polynomial subtractPolynomials(polynomial fx,polynomial gx,lli p)
 	return ret;
 }
 
+// TODO: Speed it up by using FFT in O(nlogn) instead of brute-force in O(n^2)
 polynomial multiplyPolynomials(polynomial fx,polynomial gx,lli p)
 {
 	lli i,j,k,len1=fx.size(),len2=gx.size();
@@ -207,6 +216,7 @@ polynomial multiplyPolynomials(polynomial fx,polynomial gx,lli p)
 	return ret;
 }
 
+// TODO: Pretty print the polynomial
 void printPolynomial(polynomial fx)
 {
 	int i,j,k,len=fx.size();
@@ -282,6 +292,9 @@ int main()
 				gx.pb(temp);
 			}
 			polynomial poly;
+
+			// TODO: Make it cleaner by adding switch cases instead of if-else
+
 			if(input==1)
 			{
 				poly=addPolynomials(fx,gx,p);
